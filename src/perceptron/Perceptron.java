@@ -1,5 +1,10 @@
 package perceptron;
 
+/** Classe perceprtron
+ * 
+ * @author pauloh48
+ *
+ */
 public class Perceptron {
 	private int wb = 0, w1=0, w2=0;
 	private int bias = 1; // wb == bias. inicializa bia com 1, sinal positivo
@@ -8,11 +13,19 @@ public class Perceptron {
 	private int taxaAprendizagem = 1;
 	private int somatorioSaida;
 	
+	/** Funçao para calcular o somatorio dos parametros com seus pesos e bias
+	 * 
+	 * @param N1 - int: entrada 1 do individuo
+	 * @param N2 - int: entrada 2 do individuo
+	 */
 	public void geraSomatorio(int N1, int N2) {
 		setSomatorioSaida((bias*wb) + (N1*w1) + (N2*w2));	
 	}
 	
-	//funcção de ativação apenas retorna o sinal gerado para corrigir o erro
+	/** Função de ativação altera o valor do sinalGerado para corrigir o erro
+	 * 
+	 * 
+	 */
 	public void funcaoAtivacao() {
 		if(somatorioSaida > 0)
 			setSinalGerado(1);
@@ -20,18 +33,24 @@ public class Perceptron {
 			setSinalGerado(0);
 	}
 	
-	//atualiza erro
+	/** Função para calcular o Erro do individuo
+	 * 
+	 * @param SinalEsperado: representa a saida do individuo
+	 */
 	public void atualizaValorErro(int SinalEsperado) {
 		setValorErro(SinalEsperado- getSinalGerado());
 		
 	}
 	
-	//retropropaga erro corrigindo pesos
+	/** Função para retropragar a atualização dos pesos 
+	 * 
+	 * @param N1 - int: entrada 1 do individuo
+	 * @param N2 - int: entrada 2 do individuo
+	 */
 	public void retropropagacao(int N1, int N2) {
 		wb = wb + (valorErro * taxaAprendizagem * bias);
 		w1 = w1 + (valorErro * taxaAprendizagem * N1);
 		w2 = w2 + (valorErro * taxaAprendizagem * N2);
-		//setValorErro(0); //corrigir erro de loop
 	}
 	
 	public int getSomatorioSaida() {
@@ -80,5 +99,4 @@ public class Perceptron {
 	public void setValorErro(int valorErro) {
 		this.valorErro = valorErro;
 	}
-
 }

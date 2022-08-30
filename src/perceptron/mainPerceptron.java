@@ -1,26 +1,27 @@
 package perceptron;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/** Classe principal
+ *  Faz uso da classe Perceptron, Pessoa e inicializaPessoa
+ * 
+ * @author pauloh48
+ *
+ */
 public class mainPerceptron {
 
 	public static void main(String[] args) {
 		
-		inicializaPessoas initPessoas = new inicializaPessoas(); // para escolher preenchimento
+		inicializaPessoas initPessoas = new inicializaPessoas();// para escolher preenchimento
+		Perceptron percep = new Perceptron(); 					// perceptron
+		Pessoa [] pessoa; 										
 		
-		Perceptron percep = new Perceptron(); // perceptron
-		
-		Pessoa [] pessoa; 			// Cria pessoas e passa parametros
-		pessoa = new Pessoa[4];
-		
+		pessoa = new Pessoa[4];									// Cria pessoas e passa parametros
 		pessoa[0] = new Pessoa("Bach", 0, 0, 0);
 		pessoa[1] = new Pessoa("Beethoven", 0, 1, 0);
 		pessoa[2] = new Pessoa("Einstein", 1, 0, 1);
 		pessoa[3] = new Pessoa("Kepler", 1, 1, 1);
-		
-		 
 		
 		int i = 0;
 		int j;
@@ -28,44 +29,38 @@ public class mainPerceptron {
 		int contEpochs = 1;
 		 
 		// imprime para verificar se preencheu corretamente
-		System.out.println("Personalidade  |  tN1  |  tN2  |  SAIDA");
-		System.out.println(pessoa[0].getNome() + "\t       |   " + pessoa[0].getN1() + "   |   " 
-				+ pessoa[0].getN2() + "   |   " + pessoa[0].getSaida());
-		System.out.println(pessoa[1].getNome() + "      |   " +pessoa[1].getN1() + "   |   " 
-				+ pessoa[1].getN2() + "   |   " + pessoa[1].getSaida());
-		System.out.println(pessoa[2].getNome() + "       |   " +pessoa[2].getN1() + "   |   " 
-				+ pessoa[2].getN2() + "   |   " + pessoa[2].getSaida());
-		System.out.println(pessoa[3].getNome() + "         |   " +pessoa[3].getN1() + "   |   " 
-				+ pessoa[3].getN2() + "   |   " + pessoa[3].getSaida());
+		initPessoas.imprimePessoas(pessoa);
 		
 		// seleciona forma de escolha manual ou automatica. Manual slide == 3 1 2 0, 3 0 2 1
 		initPessoas.menu();
 				
-		//int aux = 0;
-		//testando pessoas
+		//Executando percptron nas pessoas
 		while(true) {
-			//j = vetorOrdemPessoa[i];
-			j = initPessoas.getVetorOrdemPessoa()[i];//acessa vetor
+			j = initPessoas.getVetorOrdemPessoa()[i]; 	//acessa ordem do vetor
 			
 			percep.geraSomatorio(pessoa[j].getN1(), pessoa[j].getN2());
-			System.out.println(pessoa[j].getNome() +": \n\tSomatorio: " + percep.getSomatorioSaida() 
-				+ ", Saida: " + pessoa[j].getSaida());
 			
+			System.out.println(pessoa[j].getNome() +": \n\tSomatorio: " 
+								+ percep.getSomatorioSaida() 
+								+ ", Saida: " + pessoa[j].getSaida());
+			
+			//se somatorio é diferente da saida faz correções
 			if(percep.getSomatorioSaida() != pessoa[j].getSaida()) {
 				percep.funcaoAtivacao();
 				percep.atualizaValorErro(pessoa[j].getSaida());
 				percep.retropropagacao(pessoa[j].getN1(), pessoa[j].getN2());
 				
-				System.out.println("\tWB: " + percep.getWb() + ", W1: "+ percep.getW1() + ", W2:"+ percep.getW2());
+				System.out.println("\tWB: " + percep.getWb() + ", W1: " 
+									+ percep.getW1() + ", W2:" + percep.getW2());
 			}
 			System.out.println("-------------------------------");
 			
-			i++;
+			i++;		// conta epocas
 			if(i == 4) {
 				i = 0;
 				contEpochs++;
 			}
-			//verifica erro
+			//verifica erro de todos tem somatorio igual a 4
 			if(percep.getValorErro() == 0 && pessoa[j].getNome().equals("Bach"))
 				flagBach = 1;
 			else if(percep.getValorErro() != 0 && pessoa[j].getNome().equals("Bach"))
@@ -86,63 +81,13 @@ public class mainPerceptron {
 			else if(percep.getValorErro() != 0 && pessoa[j].getNome().equals("Kepler"))
 				flagKepler = 0;
 		
-			if((flagBach+flagBeethoven+flagEinstein+flagKepler) == 4 /*|| contEpochs > 1000*/)
+			if((flagBach+flagBeethoven+flagEinstein+flagKepler) == 4)
 				break;
-			percep.setValorErro(0); //corrigir loop pois não atualiza valor do erro quando encontra o numero
-			/*aux++;
-			if(aux == 500)
-				System.out.println("AAAAAAAAAAAAAAAAA");*/
-		}
-		System.out.println("Total de Epocas executadas: " + contEpochs);
-		/*
-		percep.geraSomatorio(pessoa[3].getN1(), pessoa[0].getN2());
-		System.out.println(pessoa[3].getNome() +"\n" + percep.getSomatorioSaida());
-		
-		if(percep.getSomatorioSaida() != pessoa[3].getSaida()) {
-			percep.funcaoAtivacao();
-			percep.atualizaValorErro(pessoa[3].getSaida());
-			percep.retropropagacao(pessoa[3].getN1(), pessoa[3].getN2());
 			
-			System.out.println(percep.getWb() + ", "+ percep.getW1() + ", "+ percep.getW2());
+			//corrigi loop, pois não atualiza valor do erro quando encontra o numero, assim entra em loop
+			percep.setValorErro(0); 
 		}
-		
-		percep.geraSomatorio(pessoa[1].getN1(), pessoa[1].getN2());
-		//testando com betoven
-		System.out.println(pessoa[1].getNome() +"\n" + percep.getSomatorioSaida());
-		
-		if(percep.getSomatorioSaida() != pessoa[1].getSaida()) {
-			percep.funcaoAtivacao();
-			percep.atualizaValorErro(pessoa[1].getSaida());
-			percep.retropropagacao(pessoa[1].getN1(), pessoa[1].getN2());
-			
-			System.out.println(percep.getWb() + ", "+ percep.getW1() + ", "+ percep.getW2());
-		}
-		
-		// teste einstein
-		percep.geraSomatorio(pessoa[2].getN1(), pessoa[2].getN2());
-		System.out.println(pessoa[2].getNome() +"\n" + percep.getSomatorioSaida());
-		
-		if(percep.getSomatorioSaida() != pessoa[2].getSaida()) {
-			percep.funcaoAtivacao();
-			percep.atualizaValorErro(pessoa[2].getSaida());
-			percep.retropropagacao(pessoa[2].getN1(), pessoa[2].getN2());
-			
-			System.out.println(percep.getWb() + ", "+ percep.getW1() + ", "+ percep.getW2());
-		}
-		
-		
-		// teste bach
-		percep.geraSomatorio(pessoa[0].getN1(), pessoa[0].getN2());
-		System.out.println(pessoa[0].getNome() +"\n" + percep.getSomatorioSaida());
-		
-		if(percep.getSomatorioSaida() != pessoa[0].getSaida()) {
-			percep.funcaoAtivacao();
-			percep.atualizaValorErro(pessoa[0].getSaida());
-			percep.retropropagacao(pessoa[0].getN1(), pessoa[0].getN2());
-			
-			System.out.println(percep.getWb() + ", "+ percep.getW1() + ", "+ percep.getW2());
-		}
-		*/		
+		System.out.println("Total de Epocas executadas: " + contEpochs);	
 	}
 
 	private static void inicializaRandom(Random gerador, Integer[] vetorOrdemPessoa) {
@@ -160,39 +105,6 @@ public class mainPerceptron {
         	
         	if(i == 4)	// parada
         		break;
-        	//System.out.println(gerador.nextInt(4));
          }
 	}
-
 }
-
-/*
- * //perceptron
-		//inicializa pesos com 0
-		int wb = 0, w1=0, w2=0;
-		int bias = 1; // wb == bias. inicializa bia com 1, sinal positivo
-		int valorErro = 0; //SinalEsperado – SinalGerado
-		int sinalGerado;
-		int taxaAprendizagem = 1;
-		int sinalEntrada = 1;
-		
-		//somatorio = (Bias*Wb)+(N1*W1)+(N2*W2) == sinal gerado
-		
-		
-		
-Kepler
-0
-0, 0, 0
-1, 1, 1
-Beethoven
-2
-1, 1, 1
-0, 1, 0
-Einstein
-1
-0, 1, 0
-Bach
-0
-0, 1, 0
- * 
- * */

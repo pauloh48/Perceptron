@@ -1,5 +1,10 @@
 package perceptron;
 
+/** Classe pessoa
+ * 
+ * @author pauloh48
+ *
+ */
 public class Pessoa {
 	private String nome;
 	private int N1;
@@ -44,5 +49,4 @@ public class Pessoa {
 	public void setSaida(int saida) {
 		this.saida = saida;
 	}
-
 }
