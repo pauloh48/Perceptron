@@ -89,22 +89,4 @@ public class mainPerceptron {
 		}
 		System.out.println("Total de Epocas executadas: " + contEpochs);	
 	}
-
-	private static void inicializaRandom(Random gerador, Integer[] vetorOrdemPessoa) {
-		int i = 0;
-		int numAux;
-		while(true) {
-			//i = 0;
-        	List<Integer> lista = Arrays.asList(vetorOrdemPessoa);
-        	
-        	numAux = gerador.nextInt(4); // sorteio de 0 a 3
-        	if(!lista.contains(numAux)) { //se não contem na lista/vetor, adiciona numAux e incrementa i
-        		vetorOrdemPessoa[i] = numAux; 
-        		i++;
-        	}
-        	
-        	if(i == 4)	// parada
-        		break;
-         }
-	}
 }
