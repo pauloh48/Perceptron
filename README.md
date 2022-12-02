@@ -1,5 +1,5 @@
 # Perceptron
-Perceptorn desenvolvido para realizao o treinamento sobre a tabela abaixo
+Perceptorn desenvolvido para realizar o treinamento sobre a tabela abaixo
 
 ![image](https://user-images.githubusercontent.com/48679801/187464607-96296d28-a301-4c20-88b0-205c4cf17d57.png)
 
