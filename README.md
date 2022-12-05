@@ -11,4 +11,4 @@ Perceptorn desenvolvido para realizar o treinamento sobre a tabela abaixo
    R.: Neste modelo se observou no maximo 4 interações.
 
 ## Observações
-Para o treinamento se usou bias e taxa de aprendizado igual  a 1.
+Para o treinamento se usou o bias e taxa de aprendizado igual  a 1.
